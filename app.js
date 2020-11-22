@@ -1,12 +1,15 @@
 const http = require('http');
-const port = process.env.PORT || 3000
-
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/html');
-  res.end('<h1>My Name is Navneet Shankar</h1>');
-});
-
-server.listen(port,() => {
-  console.log(`Server running at port `+port);
-});
+const express = require('express');
+const path = require('path');
+const app = express();
+app.use(express.json());
+app.use(express.static("express"));
+// default URL for website
+app.use('/', function(req,res){
+    res.sendFile(path.join(__dirname+'/express/index.html'));
+    //__dirname : It will resolve to your project folder.
+  });
+const server = http.createServer(app);
+const port = 3000;
+server.listen(port);
+console.debug('Server listening on port ' + port);
